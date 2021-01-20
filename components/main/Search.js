@@ -28,7 +28,7 @@ export default function Search(props) {
       });
   };
   return (
-    <View>
+    <View style={{ marginTop: 20 }}>
       <TextInput
         placeholder="Type here..."
         onChangeText={(search) => fetchUsers(search)}

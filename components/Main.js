@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import firebase from "firebase";
 
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
@@ -62,6 +63,14 @@ export class Main extends Component {
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
+          listeners={({ navigation }) => ({
+            tabPress: (event) => {
+              event.preventDefault();
+              navigation.navigate("Profile", {
+                uid: firebase.auth().currentUser.uid,
+              });
+            },
+          })}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
