@@ -12,14 +12,11 @@ export default function Add({ navigation }) {
 
   useEffect(() => {
     (async () => {
-      //   const cameraStatus = await Camera.requestPermissionsAsync();
-      //   setHasCameraPermission(cameraStatus.status === "granted");
+      const cameraStatus = await Camera.requestPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === "granted");
 
-      //   const galleryStatus = await ImagePicker.requestCameraRollPermissionsAsync();
-      //   setHasGalleryPermission(galleryStatus.status === "granted");
-
-      setHasCameraPermission(true);
-      setHasGalleryPermission(true);
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(galleryStatus.status === "granted");
     })();
   }, []);
 
@@ -50,9 +47,8 @@ export default function Add({ navigation }) {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <View style={styles.cameraContainer}>
         <Camera
           ref={(ref) => setCamera(ref)}
@@ -61,6 +57,7 @@ export default function Add({ navigation }) {
           ratio={"1:1"}
         />
       </View>
+
       <Button
         title="Flip Image"
         onPress={() => {
@@ -72,7 +69,7 @@ export default function Add({ navigation }) {
         }}
       ></Button>
       <Button title="Take Picture" onPress={() => takePicture()} />
-      <Button title="Pick Image from Gallery" onPress={() => pickImage()} />
+      <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
       <Button
         title="Save"
         onPress={() => navigation.navigate("Save", { image })}
