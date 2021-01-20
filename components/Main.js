@@ -5,6 +5,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
+import SearchScreen from "./main/Search";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -30,6 +31,16 @@ export class Main extends Component {
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          navigation={this.props.navigation}
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="magnify" color={color} size={26} />
             ),
           }}
         />
