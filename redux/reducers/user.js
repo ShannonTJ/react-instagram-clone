@@ -18,5 +18,7 @@ export const user = (state = initialState, action) => {
         ...state,
         posts: action.posts,
       };
+    default:
+      return state;
   }
 };
