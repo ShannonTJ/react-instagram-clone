@@ -14,7 +14,19 @@ function Comment(props) {
 
   useEffect(() => {
     function matchUserToComment(comments) {
-      for (let i = 0; i < comments.length; i++) {}
+      for (let i = 0; i < comments.length; i++) {
+        if (comments[i].hasOwnProperty("user")) {
+          continue;
+        }
+
+        const user = props.user.find((x) => x.uid === comments[i].creator);
+        if (user == undefined) {
+          props.fetchUsersData(comments[i].creator, false);
+        } else {
+          comments[i].user = user;
+        }
+      }
+      setComments(comments);
     }
 
     if (props.route.params.postId !== postId) {
@@ -32,11 +44,13 @@ function Comment(props) {
             const id = doc.id;
             return { id, ...data };
           });
-          setComments(comments);
+          matchUserToComment(comments);
           setPostId(props.route.params.postId);
         });
+    } else {
+      matchUserToComment(comments);
     }
-  }, [props.route.params.postId]);
+  }, [props.route.params.postId, props.users]);
 
   const onCommentSend = () => {
     firebase
@@ -60,6 +74,7 @@ function Comment(props) {
         data={comments}
         renderItem={({ item }) => (
           <View>
+            {item.user !== undefined ? <Text>{item.user.name}</Text> : null}
             <Text>{item.text}</Text>
           </View>
         )}
