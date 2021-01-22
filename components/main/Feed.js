@@ -7,21 +7,33 @@ require("firebase/firestore");
 function Feed(props) {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {}, [props.usersLoaded]);
-
-  if (user === null) {
-    return <View />;
-  }
+  useEffect(() => {
+    let posts = [];
+    if (props.usersLoaded == props.following.length) {
+      for (let i = 0; i < props.following.length; i++) {
+        const user = props.users.find((el) => el.uid === props.following[i]);
+        if (user != undefined) {
+          posts = [...posts, ...user.posts];
+        }
+      }
+      //order the posts
+      posts.sort(function (x, y) {
+        return x.creation - y.creation;
+      });
+      setPosts(posts);
+    }
+  }, [props.usersLoaded]);
 
   return (
     <View style={styles.container}>
       <View style={styles.containerGallery}>
         <FlatList
-          numColumns={3}
+          numColumns={1}
           horizontal={false}
-          data={userPosts}
+          data={posts}
           renderItem={({ item }) => (
             <View style={styles.containerImage}>
+              <Text style={styles.container}>{style.user.name}</Text>
               <Image style={styles.image} source={{ uri: item.downloadURL }} />
             </View>
           )}
