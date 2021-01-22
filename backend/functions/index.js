@@ -20,7 +20,7 @@ exports.addLike = functions.firestore
 
 exports.removeLike = functions.firestore
   .document("/posts/{creatorId}/userPosts/{postId}/likes/{userId}")
-  .onCreate((snap, context) => {
+  .onDelete((snap, context) => {
     return db
       .collection("posts")
       .doc(context.params.creatorId)
