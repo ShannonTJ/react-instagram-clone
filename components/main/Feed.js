@@ -41,6 +41,7 @@ function Feed(props) {
                 onPress={() =>
                   props.navigation.navigate("Comment", {
                     postId: item.id,
+                    uid: item.user.uid,
                   })
                 }
               >
