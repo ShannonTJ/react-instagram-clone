@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   users: [],
-  userLoaded: 0,
+  usersLoaded: 0,
 };
 
 //store state and update it when an action is received
