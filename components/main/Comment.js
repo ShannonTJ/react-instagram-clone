@@ -3,12 +3,20 @@ import { View, Text, FlatList, Button, TextInput } from "react-native";
 import firebase from "firebase";
 require("firebase/firestore");
 
-export default function Comment(props) {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { fetchUsersData } from "../../redux/actions/index";
+
+function Comment(props) {
   const [comments, setComments] = useState([]);
   const [postId, setPostId] = useState("");
   const [text, setText] = useState("");
 
   useEffect(() => {
+    function matchUserToComment(comments) {
+      for (let i = 0; i < comments.length; i++) {}
+    }
+
     if (props.route.params.postId !== postId) {
       firebase
         .firestore()
@@ -66,3 +74,11 @@ export default function Comment(props) {
     </View>
   );
 }
+
+const mapStateToProps = (store) => ({
+  users: store.usersState.users,
+});
+const mapDispatchProps = (dispatch) =>
+  bindActionCreators({ fetchUsersData }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchProps)(Comment);
